@@ -1,0 +1,20 @@
+	NAME	DATATYPE	TYPE			REFERENCE	VISIBILITY
+000	fi	integer		function name		2		global
+001	x	integer		parameter		5		fi
+002	y	integer		parameter		8		fi
+003	z	integer		variable name		13		fi
+004	fs	string		function name		32		global
+005	a	string		parameter		35		fs
+006	b	string		parameter		38		fs
+007	c	string		variable name		43		fs
+008	subst	string		function name		48		fs
+009	p	integer		parameter		54		fs
+010	n	integer		parameter		57		fs
+011	x	integer		variable name		82		main
+012	y	integer		variable name		86		main
+013	z	integer		variable name		90		main
+014	sa	string		variable name		94		main
+015	sb	string		variable name		98		main
+016	sc	string		variable name		102		main
+017	strle	integer		function name		107		main
+018	p	string		parameter		110		main
