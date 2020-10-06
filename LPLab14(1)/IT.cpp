@@ -30,14 +30,16 @@ namespace IT
 	{
 		for (int i = 0; i < idtable.size;++i)
 		{
+			//
 			if (strcmp(idtable.table[i].id, ent.id) == 0 && strcmp(idtable.table[i].visibilityRegion, ent.visibilityRegion) == 0)return i;
 		}
 
-		if (ent.idtype == IT::F) 
+		if (ent.idtype == IT::N) 
 		{
 			for (int i = 0; i < idtable.size; i++)
 			{
-				if (strcmp(idtable.table[i].id, ent.id) == 0 && idtable.table[i].visibilityRegion[0]== '$')return i;
+				if (strcmp(idtable.table[i].id, ent.id) == 0 && idtable.table[i].visibilityRegion[0]== '$' &&
+					idtable.table[i].idtype == IT::F)return i;
 			}
 		}
 

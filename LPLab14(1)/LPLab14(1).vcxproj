@@ -158,10 +158,13 @@
     <ClInclude Include="Log.h" />
     <ClInclude Include="LT.h" />
     <ClInclude Include="Parm.h" />
+    <ClInclude Include="resource.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="IdTable.txt" />
     <Text Include="in.txt" />
+    <Text Include="LexTable.txt" />
     <Text Include="lg.txt" />
     <Text Include="out.txt" />
   </ItemGroup>

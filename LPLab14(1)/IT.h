@@ -8,8 +8,8 @@
 
 namespace IT
 {
-	enum IDDATATYPE { INT = 1, STR = 2 };
-	enum IDTYPE { V = 1, F = 2, P = 3, L = 3 };
+	enum IDDATATYPE { INT = 1, STR = 2 , NLL = 3};
+	enum IDTYPE { V = 1, F = 2, P = 3, L = 3 , N = 4};
 
 
 	struct Entry

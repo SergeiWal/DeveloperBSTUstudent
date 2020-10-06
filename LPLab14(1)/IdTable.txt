@@ -8,13 +8,16 @@
 006	b	string		parameter		38		fs
 007	c	string		variable name		43		fs
 008	subst	string		function name		48		fs
-009	p	integer		parameter		54		fs
-010	n	integer		parameter		57		fs
-011	x	integer		variable name		82		main
-012	y	integer		variable name		86		main
-013	z	integer		variable name		90		main
-014	sa	string		variable name		94		main
-015	sb	string		variable name		98		main
-016	sc	string		variable name		102		main
-017	strle	integer		function name		107		main
-018	p	string		parameter		110		main
+009	a	string		parameter		51		subst
+010	p	integer		parameter		54		subst
+011	n	integer		parameter		57		subst
+012	f	string		variable name		62		fs
+013	x	integer		variable name		86		main
+014	y	integer		variable name		90		main
+015	z	integer		variable name		94		main
+016	sa	string		variable name		98		main
+017	sb	string		variable name		102		main
+018	sc	string		variable name		106		main
+019	strle	integer		function name		111		main
+020	p	string		parameter		114		strle
+021	g	integer		variable name		119		main

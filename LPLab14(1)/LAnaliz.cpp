@@ -158,7 +158,12 @@ namespace LA
 		lexType lextype;
 
 		visibility vsblRgn;
+		vsblRgn.ln = 0;
 		vsblRgn.type = LA::GL;
+		vsblRgn.prevType = LA::GL;
+
+		IT::IDDATATYPE datatype = IT::NLL;
+		IT::IDTYPE type = IT::N;
 		
 
 		for (int i =0; i<words->Array.size(); ++i)
@@ -168,7 +173,7 @@ namespace LA
 			ltNewEntry->idxTI = LT_IT_NULLIDX;
 
 			IT::Entry* itNewEntry = new IT::Entry;
-
+			
 
 			if (words->Array[i].value.size() == 1 && (words->Array[i].value[0] == LEX_SEMICOLON || words->Array[i].value[0] == LEX_BRACELET ||
 				words->Array[i].value[0] == LEX_COMA || words->Array[i].value[0] == LEX_LEFTBRACE || words->Array[i].value[0] == LEX_LEFTHESIS ||
@@ -176,19 +181,36 @@ namespace LA
 			{
 				ltNewEntry->lexema[0] = words->Array[i].value[0];
 				ltNewEntry->lexema[1] = STR_END;
-				if (words->Array[i].value[0] == LEX_BRACELET)vsblRgn.type = LA::GL;
-
-				if (words->Array[i].value[0] == LEX_LEFTHESIS && lt.table[i + 1].lexema[0] != LEX_LEFTBRACE && vsblRgn.type == LA::FN &&
-					(vsblRgn.prevType == LA::FN || vsblRgn.prevType == LA::MN))
+				
+				if (words->Array[i].value[0] == LEX_SEMICOLON)
+				{
+					datatype = IT::NLL;
+					type = IT::N;
+					
+				}
+				if (words->Array[i].value[0] == LEX_BRACELET)
+				{
+					vsblRgn.type = LA::GL;
+					vsblRgn.ln = 0;
+					datatype = IT::NLL;
+					type = IT::N;
+				}
+				if (words->Array[i].value[0] == LEX_RIGHTHESIS && vsblRgn.type == LA::FN && 
+					(vsblRgn.prevType == LA::FN || vsblRgn.prevType == LA::MN) && words->Array[i + 1].value[0] != LEX_LEFTBRACE )
 				{
 					vsblRgn.type = vsblRgn.prevType;
-					if (vsblRgn.prevType == LA::FN)
+					/*vsblRgn.prevType = LA::GL;*/
+					if (vsblRgn.type == LA::FN)
 					{
-						for (int k = 0; k < vsblRgn.prevLn; ++k)vsblRgn.region[k] = vsblRgn.prevRegion[k];
-						vsblRgn.ln = vsblRgn.prevLn;
+						vsblRgn.ln = 0;
+						for (int k = 0; k < vsblRgn.prevLn; k++)
+						{
+							vsblRgn.region[k] = vsblRgn.prevRegion[k];
+							vsblRgn.ln++;
+						}
 					}
-
 				}
+
 			}
 			else
 			{
@@ -198,24 +220,38 @@ namespace LA
 				case LA::T:
 					ltNewEntry->lexema[0] = LEX_TYPE;
 					ltNewEntry->lexema[1] = STR_END;
+					if (words->Array[i].value[0] == 'i')datatype = IT::INT;
+					if (words->Array[i].value[0] == 's')datatype = IT::STR;
 					break;
 				case LA::I:
+
 					ltNewEntry->lexema[0] = LEX_ID;
 					ltNewEntry->lexema[1] = STR_END;
 
+					itNewEntry->idtype = type;
+					itNewEntry->iddatatype = datatype;
+
+					type = IT::N;
+					datatype = IT::NLL;
+
+					if (itNewEntry->idtype == IT::N && itNewEntry->iddatatype != IT::NLL &&
+						(words->Array[i + 1].value[0] == ',' || words->Array[i + 1].value[0] == ')'))itNewEntry->idtype = IT::P;
 					
+
 					for (int j = 0; j < words->Array[i].value.size() && j < ID_MAXSIZE; ++j)
 					{
 						itNewEntry->id[j] = words->Array[i].value[j];
 						if ((j + 1) == words->Array[i].value.size() || (j + 1) == ID_MAXSIZE)itNewEntry->id[j + 1] = STRING_ENDL;
 					}
-					
-					
+
 					switch (vsblRgn.type)
 					{
 					case LA::FN:
-						for (int j = 0; j < ID_MAXSIZE; ++j)itNewEntry->visibilityRegion[j] = vsblRgn.region[j];
-						itNewEntry->visibilityRegion[vsblRgn.ln] = STRING_ENDL;
+						for (int k = 0; k < vsblRgn.ln && k < ID_MAXSIZE; k++)
+						{
+							itNewEntry->visibilityRegion[k] = vsblRgn.region[k];
+							if ((k + 1) == vsblRgn.ln || (k + 1) == ID_MAXSIZE)itNewEntry->visibilityRegion[k + 1] = STRING_ENDL;
+						}
 						break;
 					case LA::GL:
 						itNewEntry->visibilityRegion[0] = GLOBAL_REGION;
@@ -228,68 +264,53 @@ namespace LA
 					default:
 						break;
 					}
-					
-					
-					if (words->Array[i + 1].value[0] == LEX_LEFTHESIS)
+
+					if (itNewEntry->idtype == IT::F)
 					{
-						
-						itNewEntry->idtype = IT::F;
-
-						if (words->Array[i - 2].value[0] == LEX_ID)itNewEntry->iddatatype = IT::INT;
-						else if (words->Array[i - 2].value[0] == 's')itNewEntry->iddatatype = IT::STR;
-
-						vsblRgn.prevLn = 0;
 						vsblRgn.prevType = vsblRgn.type;
-						if (vsblRgn.prevType == LA::FN)for (int k = 0; k < vsblRgn.ln; ++k)
+						vsblRgn.type = LA::FN;
+
+						if (vsblRgn.prevType == LA::FN)
 						{
-							vsblRgn.prevRegion[k] = vsblRgn.region[k];
-							vsblRgn.prevLn++;
+							vsblRgn.prevLn = 0;
+							for (int k = 0; k < vsblRgn.ln; k++)
+							{
+								vsblRgn.prevRegion[k] = vsblRgn.region[k];
+								vsblRgn.prevLn++;
+							}
 						}
 
 						vsblRgn.ln = 0;
-						vsblRgn.type = LA::FN;
-						for (int j = 0; j < words->Array[i].value.size() && j < ID_MAXSIZE; ++j)
+						for (int k = 0; k < words->Array[i].value.size() && k < ID_MAXSIZE; k++)
 						{
-							vsblRgn.region[j] = words->Array[i].value[j];
+							vsblRgn.region[k] = words->Array[i].value[k];
 							vsblRgn.ln++;
 						}
-
-					}
-					else
-					{
-						if (lt.table[lt.size - 2].lexema[0] == LEX_DECLARE)itNewEntry->idtype = IT::V;
-						else if (lt.table[lt.size - 2].lexema[0] == LEX_LEFTHESIS || lt.table[lt.size - 2].lexema[0] == LEX_COMA)itNewEntry->idtype = IT::P;
-
-						if (words->Array[i - 1].value[0] == LEX_ID)itNewEntry->iddatatype = IT::INT;
-						else if (words->Array[i - 1].value[0] == 's')itNewEntry->iddatatype = IT::STR;
-					}
-					
-					if (itNewEntry->iddatatype == IT::INT)itNewEntry->value.vint = TI_INT_DEFAULT;
-					else if (itNewEntry->iddatatype == IT::STR)
-					{
-						itNewEntry->value.vstr.len = TI_STR_DEFAULT;
-						itNewEntry->value.vstr.str[0] = TI_STR_DEFAULT;
 					}
 
-					
 					ltNewEntry->idxTI = IT::IsId(it, *itNewEntry);
+					if (itNewEntry->idtype == IT::V && ltNewEntry->idxTI != TI_NULLIDX)throw ERROR_THROW_IN(127, words->Array[i].line, 0);
 
-					if (ltNewEntry->idxTI == TI_NULLIDX)
+					if (ltNewEntry->idxTI == TI_NULLIDX )
 					{
-						itNewEntry->idxfirstLE = lt.size;
+						if (itNewEntry->idtype == IT::N)throw ERROR_THROW_IN(125, words->Array[i].line, 0);
+						if (itNewEntry->iddatatype == IT::NLL)throw ERROR_THROW_IN(126, words->Array[i].line, 0);
 						ltNewEntry->idxTI = it.size;
+						itNewEntry->idxfirstLE = lt.size;
 						IT::Add(it, *itNewEntry);
 					}
 					
-					
+
 					break;
 				case LA::F:
 					ltNewEntry->lexema[0] = LEX_FUNCTION;
 					ltNewEntry->lexema[1] = STR_END;
+					type = IT::F;
 					break;
 				case LA::D:
 					ltNewEntry->lexema[0] = LEX_DECLARE;
 					ltNewEntry->lexema[1] = STR_END;
+					type = IT::V;
 					break;
 				case LA::L:
 					ltNewEntry->lexema[0] = LEX_LITERAL;
@@ -298,10 +319,8 @@ namespace LA
 				case LA::M:
 					ltNewEntry->lexema[0] = LEX_MAIN;
 					ltNewEntry->lexema[1] = STR_END;
-
 					vsblRgn.prevType = vsblRgn.type;
 					vsblRgn.type = LA::MN;
-
 					break;
 				case LA::P:
 					ltNewEntry->lexema[0] = LEX_PRINT;

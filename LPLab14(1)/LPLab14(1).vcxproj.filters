@@ -71,10 +71,19 @@
     <ClInclude Include="LAnaliz.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Text Include="in.txt" />
     <Text Include="lg.txt" />
     <Text Include="out.txt" />
+    <Text Include="IdTable.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="LexTable.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
