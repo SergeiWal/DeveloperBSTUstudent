@@ -1,0 +1,7 @@
+	DATATYPE	REFERENCE	VALUE
+013	integer		70		1
+014	integer		72		3
+024	integer		127		5
+025	string		131		'1234567890'
+026	string		156		'контрольный пример'
+027	integer		171		0

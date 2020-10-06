@@ -22,6 +22,7 @@ int _tmain(int argc, _TCHAR* argv[])
 		LA::LAnalyzis(wA, idTable, lexTable);
 		LA::lexTableOut(lexTable);
 		LA::idTableOut(idTable);
+		LA::ltTableOut(idTable);
 	}
 	catch (Error::ERROR e)
 	{

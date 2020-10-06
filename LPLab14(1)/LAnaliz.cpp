@@ -231,11 +231,18 @@ namespace LA
 					itNewEntry->idtype = type;
 					itNewEntry->iddatatype = datatype;
 
+					if (itNewEntry->iddatatype == IT::STR)
+					{
+						itNewEntry->value.vstr.len = 0;
+						itNewEntry->value.vstr.str[0] = '\0';
+					}
+					else itNewEntry->value.vint = 0;
+
 					type = IT::N;
 					datatype = IT::NLL;
 
 					if (itNewEntry->idtype == IT::N && itNewEntry->iddatatype != IT::NLL &&
-						(words->Array[i + 1].value[0] == ',' || words->Array[i + 1].value[0] == ')'))itNewEntry->idtype = IT::P;
+						(words->Array[i + 1].value[0] == LEX_COMA || words->Array[i + 1].value[0] == LEX_RIGHTHESIS))itNewEntry->idtype = IT::P;
 					
 
 					for (int j = 0; j < words->Array[i].value.size() && j < ID_MAXSIZE; ++j)
@@ -264,7 +271,7 @@ namespace LA
 					default:
 						break;
 					}
-
+					 
 					if (itNewEntry->idtype == IT::F)
 					{
 						vsblRgn.prevType = vsblRgn.type;
@@ -315,6 +322,40 @@ namespace LA
 				case LA::L:
 					ltNewEntry->lexema[0] = LEX_LITERAL;
 					ltNewEntry->lexema[1] = STR_END;
+
+					type = IT::N;
+					datatype = IT::NLL;
+
+					itNewEntry->idtype = IT::L;
+					if (words->Array[i].value[0] == KV)itNewEntry->iddatatype = IT::STR;
+					else itNewEntry->iddatatype = IT::INT;
+
+					switch (itNewEntry->iddatatype)
+					{
+					case IT::STR:
+						itNewEntry->value.vstr.len = words->Array[i].value.size();
+						for (int k = 0; k < itNewEntry->value.vstr.len; k++)itNewEntry->value.vstr.str[k] = words->Array[i].value[k];
+						itNewEntry->value.vstr.str[itNewEntry->value.vstr.len] = STRING_ENDL;
+						break;
+					case IT::INT:
+						itNewEntry->value.vint = 0;
+						for (int it = 0; it < words->Array[i].value.size(); ++it)
+							itNewEntry->value.vint = itNewEntry->value.vint * 10 + (words->Array[i].value[it] - '0');
+						break;
+					default:
+						break;
+					}
+
+					ltNewEntry->idxTI = IT::IsId(it, *itNewEntry);
+
+					if (ltNewEntry->idxTI == TI_NULLIDX)
+					{
+						ltNewEntry->idxTI = it.size;
+						itNewEntry->idxfirstLE = lt.size;
+						IT::Add(it, *itNewEntry);
+					}
+					
+
 					break;
 				case LA::M:
 					ltNewEntry->lexema[0] = LEX_MAIN;
@@ -374,42 +415,81 @@ namespace LA
 		out << "\t" << "NAME" << "\t" << "DATATYPE" << "\t" << "TYPE" << "\t\t\t" << "REFERENCE" << "\t" << "VISIBILITY\n";
 		for (int i = 0; i < it.size; ++i)
 		{
-			if (i < 10)out << "00";
-			if (i < 100 && i >= 10)out << "0";
-			out << i << "\t" << it.table[i].id << "\t";
-
-			switch (it.table[i].iddatatype)
+			if (it.table[i].idtype != IT::L)
 			{
-			case IT::INT:
-				out << "integer" << "\t\t";
-				break;
-			case IT::STR:
-				out << "string" << "\t\t";
-				break;
-			default:
-				break;
+				if (i < 10)out << "00";
+				if (i < 100 && i >= 10)out << "0";
+				out << i << "\t" << it.table[i].id << "\t";
+
+				switch (it.table[i].iddatatype)
+				{
+				case IT::INT:
+					out << "integer" << "\t\t";
+					break;
+				case IT::STR:
+					out << "string" << "\t\t";
+					break;
+				default:
+					break;
+				}
+
+				switch (it.table[i].idtype)
+				{
+				case IT::F:
+					out << "function name" << "\t\t";
+					break;
+				case IT::V:
+					out << "variable name" << "\t\t";
+					break;
+				case IT::P:
+					out << "parameter" << "\t\t";
+					break;
+				default:
+					break;
+				}
+
+				out << it.table[i].idxfirstLE << "\t\t";
+
+				if (it.table[i].visibilityRegion[0] == GLOBAL_REGION)out << "global\n";
+				else if (it.table[i].visibilityRegion[0] == MAIN_REGION)out << "main\n";
+				else out << it.table[i].visibilityRegion << "\n";
 			}
 
-			switch (it.table[i].idtype)
+		}
+		out.close();
+	}
+
+	void ltTableOut(IT::IdTable it)
+	{
+		std::ofstream out;
+		out.open("ltTable.txt");
+		if (!out.is_open())throw ERROR_THROW(123);
+		out << "\t" << "DATATYPE" << "\t" << "REFERENCE"  << "\t" << "VALUE"  << "\n";
+		for (int i = 0; i < it.size; ++i)
+		{
+			if (it.table[i].idtype == IT::L)
 			{
-			case IT::F:
-				out << "function name" << "\t\t";
-				break;
-			case IT::V:
-				out << "variable name" << "\t\t";
-				break;
-			case IT::P:
-				out << "parameter" << "\t\t";
-				break;
-			default:
-				break;
+				if (i < 10)out << "00";
+				if (i < 100 && i >= 10)out << "0";
+				out << i << "\t" ;
+
+				switch (it.table[i].iddatatype)
+				{
+				case IT::INT:
+					out << "integer" << "\t\t";
+					out << it.table[i].idxfirstLE << "\t\t";
+					out << it.table[i].value.vint << "\n";
+					break;
+				case IT::STR:
+					out << "string" << "\t\t";
+					out << it.table[i].idxfirstLE << "\t\t";
+					out << it.table[i].value.vstr.str << "\n";
+					break;
+				default:
+					break;
+				}
+
 			}
-
-			out << it.table[i].idxfirstLE << "\t\t";
-
-			if (it.table[i].visibilityRegion[0] == GLOBAL_REGION)out << "global\n";
-			else if (it.table[i].visibilityRegion[0] == MAIN_REGION)out << "main\n";
-			else out << it.table[i].visibilityRegion << "\n";
 
 		}
 		out.close();

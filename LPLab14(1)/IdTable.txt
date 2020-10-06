@@ -12,12 +12,12 @@
 010	p	integer		parameter		54		subst
 011	n	integer		parameter		57		subst
 012	f	string		variable name		62		fs
-013	x	integer		variable name		86		main
-014	y	integer		variable name		90		main
-015	z	integer		variable name		94		main
-016	sa	string		variable name		98		main
-017	sb	string		variable name		102		main
-018	sc	string		variable name		106		main
-019	strle	integer		function name		111		main
-020	p	string		parameter		114		strle
-021	g	integer		variable name		119		main
+015	x	integer		variable name		86		main
+016	y	integer		variable name		90		main
+017	z	integer		variable name		94		main
+018	sa	string		variable name		98		main
+019	sb	string		variable name		102		main
+020	sc	string		variable name		106		main
+021	strle	integer		function name		111		main
+022	p	string		parameter		114		strle
+023	g	integer		variable name		119		main

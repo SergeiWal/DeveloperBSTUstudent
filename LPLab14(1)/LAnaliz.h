@@ -155,4 +155,5 @@ namespace LA
 	wordArray* wordHighliter(unsigned char* text, int len);
 	void lexTableOut(LT::LexTable lt);
 	void idTableOut(IT::IdTable it);
+	void ltTableOut(IT::IdTable it);
 };

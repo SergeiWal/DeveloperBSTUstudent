@@ -28,18 +28,39 @@ namespace IT
 
 	int IsId(IdTable& idtable, Entry ent)
 	{
-		for (int i = 0; i < idtable.size;++i)
+		if (ent.idtype != IT::L)
 		{
-			//
-			if (strcmp(idtable.table[i].id, ent.id) == 0 && strcmp(idtable.table[i].visibilityRegion, ent.visibilityRegion) == 0)return i;
-		}
-
-		if (ent.idtype == IT::N) 
-		{
-			for (int i = 0; i < idtable.size; i++)
+			for (int i = 0; i < idtable.size; ++i)
 			{
-				if (strcmp(idtable.table[i].id, ent.id) == 0 && idtable.table[i].visibilityRegion[0]== '$' &&
-					idtable.table[i].idtype == IT::F)return i;
+				//
+				if (strcmp(idtable.table[i].id, ent.id) == 0 && strcmp(idtable.table[i].visibilityRegion, ent.visibilityRegion) == 0)return i;
+			}
+
+			if (ent.idtype == IT::N)
+			{
+				for (int i = 0; i < idtable.size; i++)
+				{
+					if (strcmp(idtable.table[i].id, ent.id) == 0 && idtable.table[i].visibilityRegion[0] == '$' &&
+						idtable.table[i].idtype == IT::F)return i;
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < idtable.size; ++i)
+			{
+				switch (ent.iddatatype)
+				{
+				case IT::INT:
+					if (ent.idtype == idtable.table[i].idtype && ent.value.vint == idtable.table[i].value.vint)return i;
+					break;
+				case IT::STR:
+					if (ent.idtype == idtable.table[i].idtype && strcmp((char*)idtable.table[i].value.vstr.str, (char*)ent.value.vstr.str) == 0)
+						return i;
+					break;
+				default:
+					break;
+				}
 			}
 		}
 
