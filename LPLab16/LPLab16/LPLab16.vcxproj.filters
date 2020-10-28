@@ -90,5 +90,6 @@
   <ItemGroup>
     <Text Include="in.txt" />
     <Text Include="LexTable.txt" />
+    <Text Include="IdTable.txt" />
   </ItemGroup>
 </Project>

@@ -29,17 +29,18 @@ int _tmain(int argc, _TCHAR* argv[])
 		LA::lexTableOut(lex.lextable);
 		LA::idTableOut(lex.idtable);
 		LA::ltTableOut(lex.idtable);
+		MFST_TRACE_START
+			MFST::Mfst mfst(lex, GRB::getGreibach());
+		mfst.start();
+		mfst.savededucation();
+		mfst.printrules();
 	}
 	catch (Error::ERROR e)
 	{
 		Log::WriteError(log, e);
 	}
 	
-	MFST_TRACE_START
-	MFST::Mfst mfst(lex, GRB::getGreibach());
-	mfst.start();
-	mfst.savededucation();
-	mfst.printrules();
+	
 	return 0;
 }
    
