@@ -1,5 +1,38 @@
 #include "MFST.h"
 
+int FST_TRACE_n = -1;
+char rbuf[205], sbuf[205], lbuf[1024];
+
+#define NS(n) GRB::Rule::Chain::N(n)
+#define TS(n) GRB::Rule::Chain::T(n)
+#define ISNS(n) GRB::Rule::Chain::isN(n)
+
+#define MFST_TRACE1 std::cout <<std::setw(4)<<std::left<<++FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left << rule.getCRule(rbuf, nrulechain)\
+						    <<std::setw(30)<<std::left << getCLenta(lbuf, lenta_position)\
+						    <<std::setw(20)<<std::left << getCSt(sbuf)\
+						    <<std::endl;	
+#define MFST_TRACE2 std::cout <<std::setw(4)<<std::left<< FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left << " "\
+						    <<std::setw(30)<<std::left << getCLenta(lbuf, lenta_position)\
+						    <<std::setw(20)<<std::left << getCSt(sbuf)\
+						    <<std::endl;
+#define MFST_TRACE3 std::cout <<std::setw(4)<<std::left<<++FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left << " "\
+						    <<std::setw(30)<<std::left << getCLenta(lbuf, lenta_position)\
+						    <<std::setw(20)<<std::left << getCSt(sbuf)\
+						    <<std::endl;
+#define MFST_TRACE4(c) std::cout <<std::setw(4)<<std::left<< ++FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left<<c<<std::endl;
+#define MFST_TRACE5(c) std::cout <<std::setw(4)<<std::left<< FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left<<c<<std::endl;
+#define MFST_TRACE6(c,k) std::cout <<std::setw(4)<<std::left<< FST_TRACE_n<<": "\
+						    <<std::setw(20)<<std::left<<c<<k<<std::endl;
+
+#define MFST_TRACE7 std::cout <<std::setw(4)<<std::left<< state.lenta_position<<": "\
+				    <<std::setw(20)<<std::left<<rule.getCRule(rbuf,state.nrulechain)<<std::endl;
+
+
 namespace MFST
 {
 	MfstState::MfstState()
@@ -73,7 +106,7 @@ namespace MFST
 					{
 						MFST_TRACE1
 							savestate();
-						st.pop();
+						st.pop(); 
 						push_chain(chain);
 						rc = NS_OK;
 						MFST_TRACE2
@@ -87,17 +120,17 @@ namespace MFST
 				}
 				else rc = NS_ERROR;
 			}
-			else if ((st.top() == lenta[lenta_position]))
+			else if (st.top() == lenta[lenta_position])
 			{
 				lenta_position++;
-				st.top();
+				st.pop();
 				nrulechain = -1;
 				rc = TS_OK;
 				MFST_TRACE3
 			}
 			else { MFST_TRACE4("TS_NOK/NS_NORULECHAIN") rc = reststate() ? TS_NOK : NS_NORULECHAIN; }
 		}
-		else { rc = LENTA_END; MFST_TRACE4("LENTA_END") }
+		else { rc = LENTA_END; MFST_TRACE4("LENTA_END") }     
 		return rc;
 	}
 
@@ -178,9 +211,11 @@ namespace MFST
 
 	char* Mfst::getCSt(char* buf)
 	{
-		for (int k = (signed)st.size() - 1; k >= 0; --k)
+		MFSTSTACK temp = st;
+		for (int k = st.size() - 1; k >= 0; --k)
 		{
-			short p = st._Get_container()[k];
+			short p = temp.top();
+			temp.pop();
 			buf[st.size() - 1 - k] = GRB::Rule::Chain::alphabet_to_char(p);
 		}
 		buf[st.size()] = 0x00;
@@ -214,9 +249,11 @@ namespace MFST
 	{
 		MfstState state;
 		GRB::Rule rule;
+		std::stack<MfstState> temp = storestate;
 		for (unsigned short k = 0; k < storestate.size(); ++k)
 		{
-			state = storestate._Get_container()[k];
+			state = temp.top();
+			temp.pop();
 			rule = greibach.getRule(state.nrule);
 			MFST_TRACE7
 		}
@@ -228,9 +265,11 @@ namespace MFST
 		GRB::Rule rule;
 		deducation.nrules = new short[deducation.size = storestate.size()];
 		deducation.nruleschains = new short[deducation.size];
+		std::stack<MfstState> temp = storestate;
 		for (unsigned short k = 0; k < storestate.size(); ++k)
 		{
-			state = storestate._Get_container()[k];
+			state = temp.top();
+			temp.pop();
 			deducation.nrules[k] = state.nrule;
 			deducation.nruleschains[k] = state.nrulechain;
 		}

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "LAnaliz.h"
 #include "Error.h"
 #include "IT.h"
 #include "LT.h"

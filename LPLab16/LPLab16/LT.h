@@ -26,6 +26,8 @@ namespace LT
 		int sn;
 		int idxTI; 
 		char lexema[LEXEMA_FIXSIZE];
+		Entry();
+		Entry(char* plex, int nline);
 	};
 
 	struct LexTable
@@ -35,6 +37,7 @@ namespace LT
 		Entry* table;
 	};
 
+	
 	LexTable Create(int size);
 	void Add(LexTable& lextable, Entry entry);
 	Entry GetAntry(LexTable& lextable, int n);

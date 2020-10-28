@@ -1,8 +1,17 @@
 #include "LT.h"
-#include "stdafx.h"
+#include "Error.h"
+
 
 namespace LT
 {
+	Entry::Entry(){}
+
+	Entry::Entry(char* plex, int nline)
+	{
+		lexema[0] = plex[0];
+		lexema[1] = '\0';
+		sn = nline;
+	}
 
 	LexTable Create(int size)
 	{

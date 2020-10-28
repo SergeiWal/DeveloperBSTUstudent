@@ -1,0 +1,9 @@
+	DATATYPE	REFERENCE	VALUE
+004	*	18
+005	+	21
+015	integer		68		1
+016	+	70
+026	integer		123		5
+027	string		127		'1234567890'
+028	string		152		'контрольный пример'
+029	integer		167		0
