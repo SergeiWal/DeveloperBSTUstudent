@@ -1,0 +1,21 @@
+﻿Сборка начата 03.11.2020 19:55:30.
+Уровень детализации журнала: Normal.     1>Проект "D:\GIT\laborWork\LPLab17\LP_asm01a\LP_asm01a.vcxproj" в узле 2 (целевые объекты Build).
+     1>InitializeBuildStatus:
+         Создание "Debug\LP_asm01a.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+       _MASM:
+         Assembling LP_asm01a.asm...
+         cmd.exe /C "C:\Users\User\AppData\Local\Temp\tmp77b93b5e84104f2fb4d223318480abd6.cmd"
+         ml.exe /c /nologo /Zi /Fo"Debug\LP_asm01a.obj" /W3 /errorReport:prompt  /TaLP_asm01a.asm
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\Lib.exe /OUT:"D:\GIT\laborWork\LPLab17\Debug\LP_asm01a.lib" /NOLOGO /MACHINE:X86 Debug\LP_asm01a.obj
+         LP_asm01a.vcxproj -> D:\GIT\laborWork\LPLab17\Debug\LP_asm01a.lib
+       FinalizeBuildStatus:
+         Файл "Debug\LP_asm01a.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "Debug\LP_asm01a.tlog\LP_asm01a.lastbuildstate".
+     1>Сборка проекта "D:\GIT\laborWork\LPLab17\LP_asm01a\LP_asm01a.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.59

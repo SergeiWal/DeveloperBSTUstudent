@@ -1,0 +1,27 @@
+﻿Сборка начата 05.11.2020 14:36:31.
+Уровень детализации журнала: Normal.     1>Проект "D:\GIT\laborWork\LPLab17\LP_asm01d\LP_asm01d.vcxproj" в узле 2 (целевые объекты Rebuild).
+     1>_PrepareForClean:
+         Файл "Debug\LP_asm01d.tlog\LP_asm01d.lastbuildstate" удаляется.
+       CoreClean:
+         Файл "D:\GIT\laborWork\LPLab17\Debug\LP_asm01d.pdb" удаляется.
+         Файл "D:\GIT\laborWork\LPLab17\LP_asm01d\Debug\LP_asm01d.pdb" удаляется.
+       InitializeBuildStatus:
+         Создание "Debug\LP_asm01d.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+       ClCompile:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\CL.exe /c /ZI /JMC /nologo /W3 /WX- /diagnostics:column /sdl /Od /Oy- /D WIN32 /D _DEBUG /D _LIB /D _UNICODE /D UNICODE /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /permissive- /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\" /Fd"Debug\LP_asm01d.pdb" /Gd /TP /analyze- /FC /errorReport:prompt LP_asm01d.cpp
+         LP_asm01d.cpp
+       Lib:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\Lib.exe /OUT:"D:\GIT\laborWork\LPLab17\Debug\LP_asm01d.lib" /NOLOGO /MACHINE:X86 Debug\LP_asm01d.obj
+         LP_asm01d.vcxproj -> D:\GIT\laborWork\LPLab17\Debug\LP_asm01d.lib
+       CopyFilesToOutputDirectory:
+         Копирование файла из "D:\GIT\laborWork\LPLab17\LP_asm01d\Debug\LP_asm01d.pdb" в "D:\GIT\laborWork\LPLab17\Debug\LP_asm01d.pdb".
+       FinalizeBuildStatus:
+         Файл "Debug\LP_asm01d.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "Debug\LP_asm01d.tlog\LP_asm01d.lastbuildstate".
+     1>Сборка проекта "D:\GIT\laborWork\LPLab17\LP_asm01d\LP_asm01d.vcxproj" завершена (целевые объекты Rebuild).
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:00.40

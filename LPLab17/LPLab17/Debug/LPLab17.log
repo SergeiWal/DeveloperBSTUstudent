@@ -1,0 +1,21 @@
+﻿Сборка начата 05.11.2020 15:02:56.
+Уровень детализации журнала: Normal.     1>Проект "D:\GIT\laborWork\LPLab17\LPLab17\LPLab17.vcxproj" в узле 2 (целевые объекты Build).
+     1>InitializeBuildStatus:
+         Создание "Debug\LP_asm01.tlog\unsuccessfulbuild", так как было задано "AlwaysCreate".
+       _MASM:
+         Assembling lp_asm01.asm...
+         cmd.exe /C "C:\Users\User\AppData\Local\Temp\tmpb2d7ab8d97bb4d19aeb1a74c6ca78b0f.cmd"
+         ml.exe /c /nologo /Zi /Fo"Debug\lp_asm01.obj" /Fl"Debug\\" /W3 /errorReport:prompt  /Talp_asm01.asm
+       Link:
+         C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Tools\MSVC\14.27.29110\bin\HostX86\x86\link.exe /ERRORREPORT:PROMPT /OUT:"D:\GIT\laborWork\LPLab17\Debug\LP_asm01.exe" /INCREMENTAL /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG:FASTLINK /PDB:"D:\GIT\laborWork\LPLab17\Debug\LP_asm01.pdb" /SUBSYSTEM:WINDOWS /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:"D:\GIT\laborWork\LPLab17\Debug\LP_asm01.lib" /MACHINE:X86 Debug\lp_asm01.obj
+         LPLab17.vcxproj -> D:\GIT\laborWork\LPLab17\Debug\LP_asm01.exe
+       FinalizeBuildStatus:
+         Файл "Debug\LP_asm01.tlog\unsuccessfulbuild" удаляется.
+         Обращение к "Debug\LP_asm01.tlog\LP_asm01.lastbuildstate".
+     1>Сборка проекта "D:\GIT\laborWork\LPLab17\LPLab17\LPLab17.vcxproj" завершена (целевые объекты Build).
+
+Сборка успешно завершена.
+    Предупреждений: 0
+    Ошибок: 0
+
+Прошло времени 00:00:02.76

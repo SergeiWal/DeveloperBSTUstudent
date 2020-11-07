@@ -1,0 +1,115 @@
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    11/05/20 15:02:57
+lp_asm01.asm						     Page 1 - 1
+
+
+				.586  
+				.model flat, stdcall
+				includelib kernel32.lib
+				ExitProcess PROTO :DWORD
+
+				.stack 4096
+
+ 00000000			.const
+
+ 00000000			.data
+
+ 00000000 0000000C		arr dword 12, 5, 100, 1, 2, 3, 12, 14, 9, 7  ; массив из 10 элементов размером 4 байта
+	   00000005
+	   00000064
+	   00000001
+	   00000002
+	   00000003
+	   0000000C
+	   0000000E
+	   00000009
+	   00000007
+
+ 00000000			.code
+
+ 00000000			getmin PROC  near  uses  ebx ecx edi esi,
+							array: dword, len: dword
+						
+ 00000007  8B 75 08				mov esi, array
+ 0000000A  8B 06				mov eax, [esi]
+ 0000000C  8B 4D 0C				mov ecx, len
+
+ 0000000F				CYCLE:
+ 0000000F  8B 1E				mov ebx, [esi]
+ 00000011  3B D8				cmp ebx, eax
+
+ 00000013  79 02				jns c0
+
+ 00000015  8B 06					mov eax, [ esi]
+ 00000017					c0:
+ 00000017  83 C6 04					add esi, 4
+
+ 0000001A  E2 F3				loop CYCLE
+
+
+						ret
+ 00000024			getmin ENDP
+
+
+ 00000024			main PROC
+
+
+ 00000024  6A 0A			push 10
+ 00000026  68 00000000 R		push offset arr
+ 0000002B  E8 FFFFFFD0			call getmin
+
+
+ 00000030  6A FF			push -1
+ 00000032  E8 00000000 E		call ExitProcess
+ 00000037			main ENDP
+
+
+
+				end main
+
+Microsoft (R) Macro Assembler Version 14.27.29112.0	    11/05/20 15:02:57
+lp_asm01.asm						     Symbols 2 - 1
+
+
+
+
+Segments and Groups:
+
+                N a m e                 Size     Length   Align   Combine Class
+
+CONST  . . . . . . . . . . . . .	32 Bit	 00000000 Para	  Public  'CONST'	 ReadOnly
+FLAT . . . . . . . . . . . . . .	GROUP
+STACK  . . . . . . . . . . . . .	32 Bit	 00001000 Para	  Stack	  'STACK'	 
+_DATA  . . . . . . . . . . . . .	32 Bit	 00000028 Para	  Public  'DATA'	
+_TEXT  . . . . . . . . . . . . .	32 Bit	 00000037 Para	  Public  'CODE'	
+
+
+Procedures, parameters, and locals:
+
+                N a m e                 Type     Value    Attr
+
+ExitProcess  . . . . . . . . . .	P Near	 00000000 FLAT	Length= 00000000 External STDCALL
+getmin . . . . . . . . . . . . .	P Near	 00000000 _TEXT	Length= 00000024 Public STDCALL
+  array  . . . . . . . . . . . .	DWord	 bp + 00000008
+  len  . . . . . . . . . . . . .	DWord	 bp + 0000000C
+  CYCLE  . . . . . . . . . . . .	L Near	 0000000F _TEXT	
+  c0 . . . . . . . . . . . . . .	L Near	 00000017 _TEXT	
+main . . . . . . . . . . . . . .	P Near	 00000024 _TEXT	Length= 00000013 Public STDCALL
+
+
+Symbols:
+
+                N a m e                 Type     Value    Attr
+
+@CodeSize  . . . . . . . . . . .	Number	 00000000h   
+@DataSize  . . . . . . . . . . .	Number	 00000000h   
+@Interface . . . . . . . . . . .	Number	 00000003h   
+@Model . . . . . . . . . . . . .	Number	 00000007h   
+@code  . . . . . . . . . . . . .	Text   	 _TEXT
+@data  . . . . . . . . . . . . .	Text   	 FLAT
+@fardata?  . . . . . . . . . . .	Text   	 FLAT
+@fardata . . . . . . . . . . . .	Text   	 FLAT
+@stack . . . . . . . . . . . . .	Text   	 FLAT
+arr  . . . . . . . . . . . . . .	DWord	 00000000 _DATA	
+
+	   0 Warnings
+	   0 Errors
